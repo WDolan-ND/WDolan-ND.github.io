@@ -51,8 +51,6 @@
 						<!-- Content -->
 							<div class="wrapper">
 								<div class="inner">
-
-									<h3 class="major">Lorem ipsum dolor</h3>
 									<h3 class="major">Introduction</h3>
 									<p> Earlier this year, I was part of  a project at Notre Dame aimed at forecasting the quarterly average of gold spot prices over a two-year horizon. The models implemented included standard regression approaches, ETS, ARIMA, neural networks, ensemble methods, and Meta’s Prophet. Initial results appeared strong: the Q1 2025 forecast was only ~5% below the actual quarterly average (underestimating by $150). However, the Q2  forecast failed to capture the sharp upward movement in gold, with the neural network in particular predicting a decline while spot prices instead reached record highs in Q2 2025. To address this, I revised the analysis with updated data (Q1 1990 to Q2 2025), a reduced validation set (Q3 2024 to Q2 2025), and a shorter forecast horizon (four quarters instead of eight). The objective was to better incorporate the most recent market dynamics and reduce error accumulation over longer horizons. </p>
 									<p>Spot Prices For Gold Each Quarter Since 1990:</p>
@@ -83,7 +81,7 @@
 									<h3 class="major">Conclusion</h3>
 									<p>Across both projects the neural network consistently delivered the strongest performance against the validation set and was therefore selected as the basis for the final forecasts. I did run the best three models from each project for comparison's sake.In the original project, the model correctly captured the price increase in Q1 2025 but subsequently projected a decline that has not materialized as of Q3 2025. In contrast, the revised neural network forecast extends the upward momentum, projecting prices to exceed $4,500 per troy ounce by Q2 2026. Do I personally see that happening? No, but I do think it will be accurate at least for the next two quarters as gold prices are exploding right now. This is a hard time to predict gold prices as they have been reaching record peaks and it's hard for models to account that this trend won't likely continue when they are graded off the validation set that includes this constant upward crawl.The full code for each project can be found on my github here: https://github.com/WDolan-ND/gold-price-forcasting. </p>
 									<a class="image"><img src="images/final_comp.jpg" width="800" height="400" alt="" /></a>
-									<a class="image"><img src="images/final2.jpg" width="800" height="400" alt="" /></a>
+									<a class="image"><img src="images/final.jpg" width="800" height="400" alt="" /></a>
 									
 								</div>
 							</div>
@@ -149,4 +147,5 @@
 
 	</body>
 </html>
+
 
