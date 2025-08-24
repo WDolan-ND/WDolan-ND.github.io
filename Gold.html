@@ -43,8 +43,8 @@
 					<section id="wrapper">
 						<header>
 							<div class="inner">
-								<h2>Generic</h2>
-								<p>Phasellus non pulvinar erat. Fusce tincidunt nisl eget ipsum.</p>
+								<h2>Gold Forecasting</h2>
+								<p>Dive into my forecasting of gold spot prices using multiple time series models.</p>
 							</div>
 						</header>
 
@@ -53,28 +53,38 @@
 								<div class="inner">
 
 									<h3 class="major">Lorem ipsum dolor</h3>
-									<p>Morbi mattis mi consectetur tortor elementum, varius pellentesque velit convallis. Aenean tincidunt lectus auctor mauris maximus, ac scelerisque ipsum tempor. Duis vulputate ex et ex tincidunt, quis lacinia velit aliquet. Duis non efficitur nisi, id malesuada justo. Maecenas sagittis felis ac sagittis semper. Curabitur purus leo donec vel dolor at arcu tincidunt bibendum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce ut aliquet justo. Donec id neque ipsum. Integer eget ultricies odio. Nam vel ex a orci fringilla tincidunt. Aliquam eleifend ligula non velit accumsan cursus. Etiam ut gravida sapien.</p>
-
-									<p>Vestibulum ultrices risus velit, sit amet blandit massa auctor sit amet. Sed eu lectus sem. Phasellus in odio at ipsum porttitor mollis id vel diam. Praesent sit amet posuere risus, eu faucibus lectus. Vivamus ex ligula, tempus pulvinar ipsum in, auctor porta quam. Proin nec commodo, vel scelerisque nisi scelerisque. Suspendisse id quam vel tortor tincidunt suscipit. Nullam auctor orci eu dolor consectetur, interdum ullamcorper ante tincidunt. Mauris felis nec felis elementum varius.</p>
-
-									<h3 class="major">Vitae phasellus</h3>
-									<p>Cras mattis ante fermentum, malesuada neque vitae, eleifend erat. Phasellus non pulvinar erat. Fusce tincidunt, nisl eget mattis egestas, purus ipsum consequat orci, sit amet lobortis lorem lacus in tellus. Sed ac elementum arcu. Quisque placerat auctor laoreet.</p>
-
-									<section class="features">
-										<article>
-											<a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
-											<h3 class="major">Sed feugiat lorem</h3>
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing vehicula id nulla dignissim dapibus ultrices.</p>
-											<a href="#" class="special">Learn more</a>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
-											<h3 class="major">Nisl placerat</h3>
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing vehicula id nulla dignissim dapibus ultrices.</p>
-											<a href="#" class="special">Learn more</a>
-										</article>
-									</section>
-
+									<h3 class="major">Introduction</h3>
+									<p> Earlier this year, I was part of  a project at Notre Dame aimed at forecasting the quarterly average of gold spot prices over a two-year horizon. The models implemented included standard regression approaches, ETS, ARIMA, neural networks, ensemble methods, and Meta’s Prophet. Initial results appeared strong: the Q1 2025 forecast was only ~5% below the actual quarterly average (underestimating by $150). However, the Q2  forecast failed to capture the sharp upward movement in gold, with the neural network in particular predicting a decline while spot prices instead reached record highs in Q2 2025. To address this, I revised the analysis with updated data (Q1 1990 to Q2 2025), a reduced validation set (Q3 2024 to Q2 2025), and a shorter forecast horizon (four quarters instead of eight). The objective was to better incorporate the most recent market dynamics and reduce error accumulation over longer horizons. </p>
+									<p>Spot Prices For Gold Each Quarter Since 1990:</p>
+									<a class="image"><img src="images/gold_overall.jpg" width="500" height="350" alt="" /></a>
+									<p></p>
+									<h3 class="major">Regression Models</h3>
+									<p> Prior to fitting models, I verified that the series was not a random walk, confirming predictability. In the original project, a quadratic regression provided the best results (MAPE < 10) out of the basic regression model, likely because the two-year horizon reduced sensitivity to individual forecasts. In the revised project, exponential regression outperformed quadratic regression, consistent with the continued upward momentum and record highs of 2025 but did not achieve a sub ten MAPE. Seasonality, when included, consistently reduced accuracy due to the quarterly frequency of the data.</p>
+									<a class="image"><img src="images/regression.jpg" width="800" height="400" alt="" /></a>
+									<p></p>
+									<h3 class="major">ETS</h3>
+									<p> ETS modeling selected a multiplicative error and additive trend, with no seasonality. In the initial project, the ETS forecast flattened into a near-linear trajectory, yielding a MAPE around 20. In the revised run, ETS more effectively captured the upward trajectory, improving to a MAPE just above 10. The shorter horizon and more recent training data appear to have allowed ETS to adapt to the strong trend shift in recent quarters.</p>
+									<a class="image"><img src="images/ETS.jpg" width="800" height="400" alt="" /></a>
+									<p></p>
+									<h3 class="major">ARIMA</h3>
+									<p>An auto-ARIMA model was used to select model parameters dynamically. The original ARIMA model underemphasized non-seasonal components and performed poorly, generating nearly flat predictions. In contrast, the revised ARIMA placed greater emphasis on non-seasonal terms and became one of the most accurate models, with a MAPE just above 10. This highlights the sensitivity of ARIMA specifications to both the data window and forecast horizon.</p>
+									<a class="image"><img src="images/arima.jpg" width="800" height="400" alt="" /></a>
+									<p></p>
+									<h3 class="major">Prophet</h3>
+									<p>Meta’s Prophet model is a very common time series model in the finance sector. However it struggled both times it was used with MAPEs over 20 and this is likely due to the fact that the data is quarterly. This model does work with longer data points but from my research it truly is best when modeling day to day or week to week changes. When mapping the fitted values you can see the model does fluctuate quite a lot unlike the other models but fails to express the extreme volatility of spot prices which sometimes jump up to 500 dollars from quarter to quarter.</p>	
+									<a class="image"><img src="images/prophet.jpg" width="800" height="400" alt="" /></a>
+									<p></p>
+									<h3 class="major">Neural Network</h3>
+									<p>In both iterations, the neural network produced the strongest validation performance, with a MAPE around 5 in the original project and 7 in the revised run. Seasonality was excluded in both cases, and the network was trained on the most recent observations equal to the validation horizon plus four quarters, twelve quarters for the original project and eight for the revised trial. Optimal accuracy was achieved with 10 hidden layers and 30 to 40 iterations. The neural network proved particularly effective in capturing the volatility of gold prices, where sharp quarter-to-quarter shifts are common. I ultimately choose it as the primary forecasting model in both the original and revised project.</p>
+									<a class="image"><img src="images/nn.jpg" width="800" height="400" alt="" /></a>
+									<p></p>
+									<h3 class="major">Ensemble Methods</h3>
+									<p>Several ensemble methods were tested, including a simple average of model forecasts, a trimmed average that cut the most extreme values from forecasts, and a regression-based combination. None of these ensembles outperformed the neural network on its own. Ensemble approaches are most effective when there are models that over predict and others that under predict, allowing the averaging process to create the most accurate model. In this case, nearly all models underpredicted prices during this period of record growth, limiting the effectiveness of ensemble models.</p>
+									<h3 class="major">Conclusion</h3>
+									<p>Across both projects the neural network consistently delivered the strongest performance against the validation set and was therefore selected as the basis for the final forecasts. I did run the best three models from each project for comparison's sake.In the original project, the model correctly captured the price increase in Q1 2025 but subsequently projected a decline that has not materialized as of Q3 2025. In contrast, the revised neural network forecast extends the upward momentum, projecting prices to exceed $4,500 per troy ounce by Q2 2026. Do I personally see that happening? No, but I do think it will be accurate at least for the next two quarters as gold prices are exploding right now. This is a hard time to predict gold prices as they have been reaching record peaks and it's hard for models to account that this trend won't likely continue when they are graded off the validation set that includes this constant upward crawl.The full code for each project can be found on my github here: https://github.com/WDolan-ND/gold-price-forcasting. </p>
+									<a class="image"><img src="images/final_comp.jpg" width="800" height="400" alt="" /></a>
+									<a class="image"><img src="images/final2.jpg" width="800" height="400" alt="" /></a>
+									
 								</div>
 							</div>
 
@@ -139,3 +149,4 @@
 
 	</body>
 </html>
+
